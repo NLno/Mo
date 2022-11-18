@@ -12,7 +12,8 @@ struct CurBlock{int Current; bool DoHave;}
 
 空地：int EmptyPlace[];
 
-指令：  
+##### 指令：（就按原来名字全小写）
+
 inbox  
 outbox  
 add(x)  
@@ -24,12 +25,14 @@ jumpifzero(x)
 
 类型void，bool，int，摆地想了一下用int吧，来得到顺利执行（0）、错误情况（表里的1或2）、游戏结束（如404）等信息。
 
-四个关卡：Beat1
+##### 四个关卡：Beat1
   
 返回对应的输入/输出序列、空地数、指令集限制
 
-处理输入：
+##### 处理输入：
   
 1.读取输入，大概存一个char Order[]、int Param[]吗
   
 2.对输入序列/空地执行对应命令
+
+#### 其他用到的变量及说明
