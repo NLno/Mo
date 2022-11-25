@@ -12,40 +12,67 @@ vector<int> output;
 int emptyPlace[4];
 int places = 0;
 int present;
+bool whether_inbox = 1;
+bool whether_emptyPlace[4] = {1, 1, 1, 1};
+bool whether_present_zero;
+
+bool exist(int num)
+{
+    if (num < 0 || num > places - 1)
+        return false;
+    else
+        return true;
+}
 
 int inbox(int num = 0)
 {
+    if (input.size() == 0)
+        return 100;
     present = input[0];
+    input.erase(input.begin());
+    whether_inbox = 0;
     return 0;
 }
 
 int outbox(int num = 0)
 {
+    if (whether_inbox)
+        return 404;
     output.push_back(present);
+    whether_inbox = 1;
     return 0;
 }
 
 int add(int num)
 {
-    present += emptyPlace[num - 1];
+    if (whether_inbox || exist(num) || whether_emptyPlace[num])
+        return 404;
+    present += emptyPlace[num];
     return 0;
 }
 
 int sub(int num)
 {
-    present -= emptyPlace[num - 1];
+    if (whether_inbox || exist(num) || whether_emptyPlace[num])
+        return 404;
+    present -= emptyPlace[num];
     return 0;
 }
 
 int copyto(int num)
 {
-    emptyPlace[num - 1] = present;
+    if (whether_inbox || exist(num))
+        return 404;
+    emptyPlace[num] = present;
+    whether_emptyPlace[num] = 0;
     return 0;
 }
 
 int copyfrom(int num)
 {
-    present = emptyPlace[num - 1];
+    if (exist(num) || whether_emptyPlace[num])
+        return 404;
+    present = emptyPlace[num];
     return 0;
 }
 
@@ -56,9 +83,18 @@ int jump(int num)
 
 int jumpifzero(int num)
 {
+    if (whether_inbox)
+        return 404;
     if (present == 0)
+    {
+        whether_present_zero = 1;
         return num;
-    return 0;
+    }
+    else
+    {
+        whether_present_zero = 0;
+        return num;
+    }
 }
 
 char begin()
@@ -69,12 +105,12 @@ char begin()
     {
         level >> level_complete[i];
     }
-    cout << "please press number 0 - 3 to choose level which you want to try: " << endl;
+    cout << "please press number 1 - 4 to choose level which you want to try: " << endl;
     char level_choose;
     cin >> level_choose;
     while (level_choose < '1' && level_choose > '4')
     {
-        cout << "Only number 0 - 3 is allowed, please reinput a number belong to number 0 - 3." << endl;
+        cout << "Only number 1 - 4 is allowed, please reinput a number belong to number 1 - 4." << endl;
     }
     return level_choose;
 }
@@ -86,7 +122,7 @@ void show_level_msg(char level)
     {
         string tmp;
         getline(level_msg, tmp);
-        if (tmp[0] == level)
+        if (tmp[0] == level - 1)
         {
             getline(level_msg, tmp);
             cout << tmp << endl;
@@ -149,13 +185,48 @@ int main()
             }
         }
         if (cnt == 0)
-            cout << "Error on instruction " << i << endl;
+        {
+            cout << "Error on instruction " << i + 1 << endl;
+            break;
+        }
     }
     for (int i = 0; i < number_order; i++)
     {
         int msg = cmd[i].func(cmd[i].num);
-        if (cmd[i].order == 6 || cmd[i].order == 7)
-            i = msg;
+        if (cmd[i].order == 6)
+        {
+            if (msg < 0 || msg > number_order - 1)
+            {
+                cout << "Error on instruction " << i + 1 << endl;
+                break;
+            }
+            else
+                i = msg - 1;
+        }
+        if (cmd[i].order == 7)
+        {
+            if (msg < -1 || msg > number_order - 1)
+            {
+                cout << "Error on instruction " << i + 1 << endl;
+                break;
+            }
+            else
+            {
+                if (whether_present_zero)
+                    i = msg - 1;
+                else
+                    continue;
+            }
+        }
+        if (msg == 404)
+        {
+            cout << "Error on instruction " << i + 1 << endl;
+            break;
+        }
+        else if (msg == 100)
+        {
+            break;
+        }
     }
     if (output == output_goal)
     {
