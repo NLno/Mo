@@ -19,7 +19,7 @@ string level_complete = "FFFF";
 
 bool exist(int num)
 {
-    if (num < 1 || num > places)
+    if (num < 0 || num > places - 1)
         return true;
     else
         return false;
@@ -47,17 +47,17 @@ int outbox(int num = 0)
 
 int add(int num)
 {
-    if (whether_inbox || exist(num) || whether_emptyPlace[num - 1])
+    if (whether_inbox || exist(num) || whether_emptyPlace[num])
         return 404;
-    present += emptyPlace[num - 1];
+    present += emptyPlace[num];
     return 0;
 }
 
 int sub(int num)
 {
-    if (whether_inbox || exist(num) || whether_emptyPlace[num - 1])
+    if (whether_inbox || exist(num) || whether_emptyPlace[num])
         return 404;
-    present -= emptyPlace[num - 1];
+    present -= emptyPlace[num];
     return 0;
 }
 
@@ -65,16 +65,16 @@ int copyto(int num)
 {
     if (whether_inbox || exist(num))
         return 404;
-    emptyPlace[num - 1] = present;
-    whether_emptyPlace[num - 1] = 0;
+    emptyPlace[num] = present;
+    whether_emptyPlace[num] = 0;
     return 0;
 }
 
 int copyfrom(int num)
 {
-    if (exist(num) || whether_emptyPlace[num - 1])
+    if (exist(num) || whether_emptyPlace[num])
         return 404;
-    present = emptyPlace[num - 1];
+    present = emptyPlace[num];
     whether_inbox = 0;
     return 0;
 }
@@ -322,7 +322,7 @@ void show_level(cmd cmd[], int i, int b)
     show_empty(2);
     cout << " |   +---+       |   " << endl;
     cout << "             +---+   +---+   +---+" << endl;
-    cout << "               1       2       3" << endl;
+    cout << "               0       1       2" << endl;
     cout << endl;
 }
 
