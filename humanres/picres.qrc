@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/new">
+        <file>res/game.png</file>
+        <file>res/start.png</file>
+        <file>res/BackButton.png</file>
+        <file>res/BackButtonSelected.png</file>
+        <file>res/LevelIcon.png</file>
+        <file>res/StartButton.png</file>
+        <file>res/BoxIcon.png</file>
+        <file>res/miku.gif</file>
+        <file>res/mikubig.gif</file>
+        <file>res/do.png</file>
+        <file>res/done.png</file>
+        <file>res/error.png</file>
+        <file>res/lose.png</file>
+        <file>res/win.png</file>
+        <file>res/click.png</file>
+    </qresource>
+</RCC>
